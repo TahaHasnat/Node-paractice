@@ -86,13 +86,13 @@ router.put("/:id/unfollow", async (req, res) =>{
                 const user = await User.findById(req.params.id);
                 const currentUser = await User.findById(req.body.userId);
                 
-                if(!user.followers.includes(req.body.userId)){
-
+                if(user.followers.includes(req.body.userId)){
+      
                     await user.updateOne({ $pull:{followers:req.body.userId } });
                     await currentUser.updateOne({ $pull:{following:req.params.id } });
                     res.status(200).json("user has been unfollowed");
                 }else {
-                    res.status(403).json("you already unfollow this user");
+                    res.status(403).json("you dont unfollow this user");
                 }
                 
             }catch(err){
